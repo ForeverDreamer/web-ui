@@ -377,10 +377,8 @@ def _start_chrome_debug_mode():
         chrome_path,
         "--remote-debugging-port=9222",
         f"--user-data-dir={chrome_user_data}",
-        "--no-first-run",
-        "--no-default-browser-check",
-        "--start-maximized",
         "--profile-directory=Profile 4",
+        "--start-maximized",
     ]
 
     try:
@@ -427,12 +425,20 @@ async def run_custom_agent(
         #         extra_chromium_args += [f"--profile-directory='Profile 4'"]
         # else:
         #     chrome_path = None
-        chrome_user_data = os.getenv("CHROME_USER_DATA")
-        extra_chromium_args = [
-            f"--window-size={window_w},{window_h}",
-            f"--user-data-dir={chrome_user_data}",
-            "--profile-directory='Profile 4'",
-        ]
+        # extra_chromium_args = [
+        #     "--disable-blink-features=AutomationControlled",
+        #     "--no-sandbox",
+        #     "--disable-setuid-sandbox",
+        #     "--disable-dev-shm-usage",
+        #     "--disable-infobars",
+        #     "--disable-browser-side-navigation",
+        #     "--disable-gpu",
+        #     "--disable-features=IsolateOrigins,site-per-process",
+        #     "--disable-web-security",
+        #     "--disable-site-isolation-trials",
+        #     "--font-rendering=native",
+        #     "--force-device-scale-factor=1",
+        # ]
 
         controller = CustomController()
 
@@ -444,7 +450,7 @@ async def run_custom_agent(
                     disable_security=disable_security,
                     # chrome_instance_path=chrome_path,
                     cdp_url="http://localhost:9222/",
-                    extra_chromium_args=extra_chromium_args,
+                    # extra_chromium_args=extra_chromium_args,
                 )
             )
             await _global_browser._init()

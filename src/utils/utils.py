@@ -3,16 +3,15 @@ import os
 import time
 from pathlib import Path
 from typing import Dict, Optional
-import requests
 
+import gradio as gr
 from langchain_anthropic import ChatAnthropic
-from langchain_mistralai import ChatMistralAI
 from langchain_google_genai import ChatGoogleGenerativeAI
+from langchain_mistralai import ChatMistralAI
 from langchain_ollama import ChatOllama
 from langchain_openai import AzureChatOpenAI, ChatOpenAI
-import gradio as gr
 
-from .llm import DeepSeekR1ChatOpenAI, DeepSeekR1ChatOllama
+from .llm import DeepSeekR1ChatOllama, DeepSeekR1ChatOpenAI
 
 PROVIDER_DISPLAY_NAMES = {
     "openai": "OpenAI",
@@ -21,8 +20,9 @@ PROVIDER_DISPLAY_NAMES = {
     "deepseek": "DeepSeek",
     "google": "Google",
     "alibaba": "Alibaba",
-    "moonshot": "MoonShot"
+    "moonshot": "MoonShot",
 }
+
 
 def get_llm_model(provider: str, **kwargs):
     """
@@ -50,7 +50,7 @@ def get_llm_model(provider: str, **kwargs):
             base_url=base_url,
             api_key=api_key,
         )
-    elif provider == 'mistral':
+    elif provider == "mistral":
         if not kwargs.get("base_url", ""):
             base_url = os.getenv("MISTRAL_ENDPOINT", "https://api.mistral.ai/v1")
         else:
@@ -130,7 +130,9 @@ def get_llm_model(provider: str, **kwargs):
             base_url = os.getenv("AZURE_OPENAI_ENDPOINT", "")
         else:
             base_url = kwargs.get("base_url")
-        api_version = kwargs.get("api_version", "") or os.getenv("AZURE_OPENAI_API_VERSION", "2025-01-01-preview")
+        api_version = kwargs.get("api_version", "") or os.getenv(
+            "AZURE_OPENAI_API_VERSION", "2025-01-01-preview"
+        )
         return AzureChatOpenAI(
             model=kwargs.get("model_name", "gpt-4o"),
             temperature=kwargs.get("temperature", 0.0),
@@ -140,7 +142,9 @@ def get_llm_model(provider: str, **kwargs):
         )
     elif provider == "alibaba":
         if not kwargs.get("base_url", ""):
-            base_url = os.getenv("ALIBABA_ENDPOINT", "https://dashscope.aliyuncs.com/compatible-mode/v1")
+            base_url = os.getenv(
+                "ALIBABA_ENDPOINT", "https://dashscope.aliyuncs.com/compatible-mode/v1"
+            )
         else:
             base_url = kwargs.get("base_url")
 
@@ -161,18 +165,41 @@ def get_llm_model(provider: str, **kwargs):
     else:
         raise ValueError(f"Unsupported provider: {provider}")
 
+
 # Predefined model names for common providers
 model_names = {
     "anthropic": ["claude-3-5-sonnet-20240620", "claude-3-opus-20240229"],
-    "openai": ["gpt-4o", "gpt-4", "gpt-3.5-turbo", "o3-mini"],
+    "openai": ["gpt-4o-mini", "gpt-4o", "gpt-4", "gpt-3.5-turbo", "o3-mini"],
     "deepseek": ["deepseek-chat", "deepseek-reasoner"],
-    "google": ["gemini-2.0-flash", "gemini-2.0-flash-thinking-exp", "gemini-1.5-flash-latest", "gemini-1.5-flash-8b-latest", "gemini-2.0-flash-thinking-exp-01-21", "gemini-2.0-pro-exp-02-05"],
-    "ollama": ["qwen2.5:7b", "qwen2.5:14b", "qwen2.5:32b", "qwen2.5-coder:14b", "qwen2.5-coder:32b", "llama2:7b", "deepseek-r1:14b", "deepseek-r1:32b"],
+    "google": [
+        "gemini-2.0-flash",
+        "gemini-2.0-flash-thinking-exp",
+        "gemini-1.5-flash-latest",
+        "gemini-1.5-flash-8b-latest",
+        "gemini-2.0-flash-thinking-exp-01-21",
+        "gemini-2.0-pro-exp-02-05",
+    ],
+    "ollama": [
+        "qwen2.5:7b",
+        "qwen2.5:14b",
+        "qwen2.5:32b",
+        "qwen2.5-coder:14b",
+        "qwen2.5-coder:32b",
+        "llama2:7b",
+        "deepseek-r1:14b",
+        "deepseek-r1:32b",
+    ],
     "azure_openai": ["gpt-4o", "gpt-4", "gpt-3.5-turbo"],
-    "mistral": ["pixtral-large-latest", "mistral-large-latest", "mistral-small-latest", "ministral-8b-latest"],
+    "mistral": [
+        "pixtral-large-latest",
+        "mistral-large-latest",
+        "mistral-small-latest",
+        "ministral-8b-latest",
+    ],
     "alibaba": ["qwen-plus", "qwen-max", "qwen-turbo", "qwen-long"],
     "moonshot": ["moonshot-v1-32k-vision-preview", "moonshot-v1-8k-vision-preview"],
 }
+
 
 # Callback to update the model name dropdown based on the selected provider
 def update_model_dropdown(llm_provider, api_key=None, base_url=None):
@@ -187,9 +214,16 @@ def update_model_dropdown(llm_provider, api_key=None, base_url=None):
 
     # Use predefined models for the selected provider
     if llm_provider in model_names:
-        return gr.Dropdown(choices=model_names[llm_provider], value=model_names[llm_provider][0], interactive=True)
+        return gr.Dropdown(
+            choices=model_names[llm_provider],
+            value=model_names[llm_provider][0],
+            interactive=True,
+        )
     else:
-        return gr.Dropdown(choices=[], value="", interactive=True, allow_custom_value=True)
+        return gr.Dropdown(
+            choices=[], value="", interactive=True, allow_custom_value=True
+        )
+
 
 def handle_api_key_error(provider: str, env_var: str):
     """
@@ -201,6 +235,7 @@ def handle_api_key_error(provider: str, env_var: str):
         f"`{env_var}` environment variable or provide it in the UI."
     )
 
+
 def encode_image(img_path):
     if not img_path:
         return None
@@ -209,10 +244,12 @@ def encode_image(img_path):
     return image_data
 
 
-def get_latest_files(directory: str, file_types: list = ['.webm', '.zip']) -> Dict[str, Optional[str]]:
+def get_latest_files(
+    directory: str, file_types: list = [".webm", ".zip"]
+) -> Dict[str, Optional[str]]:
     """Get the latest recording and trace files"""
     latest_files: Dict[str, Optional[str]] = {ext: None for ext in file_types}
-    
+
     if not os.path.exists(directory):
         os.makedirs(directory, exist_ok=True)
         return latest_files
@@ -227,12 +264,16 @@ def get_latest_files(directory: str, file_types: list = ['.webm', '.zip']) -> Di
                     latest_files[file_type] = str(latest)
         except Exception as e:
             print(f"Error getting latest {file_type} file: {e}")
-            
+
     return latest_files
+
+
 async def capture_screenshot(browser_context):
     """Capture and encode a screenshot"""
     # Extract the Playwright browser instance
-    playwright_browser = browser_context.browser.playwright_browser  # Ensure this is correct.
+    playwright_browser = (
+        browser_context.browser.playwright_browser
+    )  # Ensure this is correct.
 
     # Check if the browser instance is valid and if an existing context can be reused
     if playwright_browser and playwright_browser.contexts:
@@ -256,12 +297,8 @@ async def capture_screenshot(browser_context):
 
     # Take screenshot
     try:
-        screenshot = await active_page.screenshot(
-            type='jpeg',
-            quality=75,
-            scale="css"
-        )
-        encoded = base64.b64encode(screenshot).decode('utf-8')
+        screenshot = await active_page.screenshot(type="jpeg", quality=75, scale="css")
+        encoded = base64.b64encode(screenshot).decode("utf-8")
         return encoded
-    except Exception as e:
+    except Exception:
         return None

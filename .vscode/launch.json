@@ -1,0 +1,48 @@
+{
+  "version": "0.2.0",  // 配置文件的版本号，指示使用的调试器版本
+  "configurations": [  // 配置数组，包含多个调试配置
+      {
+          "name": "Current File",  // 配置的名称，便于识别当前文件的调试
+          "type": "debugpy",  // 指定使用 debugpy 作为调试器
+          "request": "launch",  // 请求类型为启动，表示要启动一个新的调试会话
+          "program": "${file}",  // 指定要调试的程序，这里使用 ${file} 表示当前打开的文件
+          "console": "integratedTerminal",  // 指定使用集成终端来显示程序的输出
+          "justMyCode": false,  // 允许调试第三方库代码，便于全面调试
+          "purpose": ["debug-in-terminal"],  // 指定调试目的，便于在终端中调试
+          "env": {  // 环境变量配置
+              "PYTHONPATH": "${workspaceFolder}"  // 设置 PYTHONPATH 为工作区文件夹
+          },
+          "stopOnEntry": false,  // 不在程序入口处暂停
+          "showReturnValue": true,  // 显示函数的返回值
+          "redirectOutput": true,  // 将输出重定向到调试控制台
+          "django": false  // 明确指定不使用 Django 调试
+      },
+      {
+          "name": "FastAPI",  // 配置的名称，便于识别 FastAPI 的调试
+          "type": "debugpy",  // 指定使用 debugpy 作为调试器
+          "request": "launch",  // 请求类型为启动，表示要启动一个新的调试会话
+          "module": "fastapi",  // 指定要调试的模块
+          "args": [  // 传递给 uvicorn 的参数
+              "dev",  // 使用 dev 命令
+              "main.py",  // 指定 FastAPI 应用的入口点，格式为 "模块名:应用名"
+              "--reload",  // 启用自动重载功能，当代码更改时，服务器会自动重启
+              "--host", "127.0.0.1",  // 指定主机地址
+              "--port", "8000",  // 指定端口号
+          ],
+          "jinja": true,  // 启用 Jinja 模板支持，适用于使用 Jinja 模板的 FastAPI 应用
+          "justMyCode": false,  // 允许调试第三方库代码，便于全面调试
+          "env": {  // 环境变量配置
+              "PYTHONPATH": "${workspaceFolder}",  // 设置 PYTHONPATH 为工作区文件夹
+              "DEBUG": "1",  // 启用调试模式
+              "FORCE_COLOR": "1",  // 强制启用彩色输出
+              "TERM": "xterm-256color"  // 指定终端类型
+          },
+          "cwd": "${workspaceFolder}\\web",
+          "console": "integratedTerminal",  // 指定使用集成终端来显示程序的输出
+          "stopOnEntry": false,  // 不在程序入口处暂停
+          "showReturnValue": true,  // 显示函数的返回值
+          "redirectOutput": true  // 将输出重定向到调试控制台
+      }
+  ],
+  "compounds": []  // 复合调试配置，当前为空，预留给未来可能的复合调试需求
+}

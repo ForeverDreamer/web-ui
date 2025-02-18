@@ -1,11 +1,95 @@
 {
-  "python.analysis.typeCheckingMode": "basic",
+  "python.analysis.extraPaths": ["${workspaceFolder}", "D:\\data_files\\short_video_creation\\auto\\crawlers\\wsvn"],
+  // terminal
+  "terminal.integrated.defaultProfile.windows": "Anaconda PowerShell",
+  "terminal.integrated.profiles.windows": {
+    "Anaconda PowerShell": {
+      "path": "C:\\Windows\\System32\\WindowsPowerShell\\v1.0\\powershell.exe",
+      "args": [
+        "-ExecutionPolicy",
+        "ByPass",
+        "-NoExit",
+        "-Command",
+        "& 'D:\\anaconda3\\shell\\condabin\\conda-hook.ps1' ; conda activate 'D:\\anaconda3' ; conda activate ai"
+      ]
+    }
+  },
+  "python.terminal.activateEnvironment": true,
+  "python.defaultInterpreterPath": "D:\\anaconda3\\envs\\ai\\python.exe",
+  // pylint - 保留用于深度代码分析
+  "pylint.enabled": true,
+  "pylint.args": ["--max-line-length=88", "--disable=C0111"],
+  // black - 保留用于代码格式化
   "[python]": {
-    "editor.defaultFormatter": "charliermarsh.ruff",
+    "editor.defaultFormatter": "ms-python.black-formatter",
     "editor.formatOnSave": true,
     "editor.codeActionsOnSave": {
-      "source.fixAll.ruff": "explicit",
-      "source.organizeImports.ruff": "explicit"
+      "source.organizeImports": "explicit",
+      "source.fixAll": "explicit",
+      "source.fixAll.ruff": "explicit"
     }
-  }
+  },
+  "black-formatter.args": ["--line-length=88"],
+  // ruff - 替代flake8
+  "ruff.enable": true,
+  "ruff.lint.select": ["ALL", "--ignore=RUF002"],
+  "ruff.lineLength": 88,
+  "ruff.organizeImports": true,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit", // Ensure imports are organized on save
+    "source.fixAll": "explicit", // Fix all issues on save
+    "source.fixAll.ruff": "explicit" // Fix all issues detected by ruff
+  },
+  "isort.args": ["--profile", "black"],
+  // 智能提示优化
+  "editor.suggestSelection": "first",
+  // 关闭类型检查或保留当前设置
+  "python.analysis.typeCheckingMode": "basic", // 或 "basic"（忽略警告）
+
+  // 代码折叠优化
+  "editor.foldingStrategy": "indentation",
+
+  // 启用括号对着色
+  "editor.bracketPairColorization.enabled": true,
+
+  // Python文档字符串格式
+  "autoDocstring.docstringFormat": "google",
+  // 语言服务器
+  "python.languageServer": "Pylance",
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportOptionalMemberAccess": "none",
+    "reportAttributeAccessIssue": "none"
+  },
+  "jupyter.askForKernelRestart": false,
+  "jupyter.interactiveWindow.creationMode": "perFile",
+  "jupyter.interactiveWindow.textEditor.executeSelection": true,
+  // Jupyter配置优化
+  "jupyter.widgetScriptSources": ["jsdelivr.com", "unpkg.com"],
+  "jupyter.showVariableViewWhenDebugging": true,
+  
+  // Python测试配置
+  "python.testing.pytestEnabled": true,
+  "python.testing.unittestEnabled": false,
+  
+  // 代码智能提示优化
+  "editor.inlineSuggest.enabled": true,
+  "editor.quickSuggestions": {
+      "strings": true
+  },
+  
+  // Git集成配置
+  "git.enableSmartCommit": true,
+  "git.autofetch": true,
+  
+  // 文件自动保存
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  
+  // 代码片段建议
+  "editor.snippetSuggestions": "top",
+  
+  // LSP配置优化
+  "pylsp.plugins.pycodestyle.enabled": false,
+  "pylsp.plugins.pyflakes.enabled": false,
+  "pylsp.plugins.ruff.enabled": true,
 }
