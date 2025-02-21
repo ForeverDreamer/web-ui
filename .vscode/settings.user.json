@@ -1,0 +1,39 @@
+{
+    "security.workspace.trust.untrustedFiles": "open",
+    "remote.SSH.remotePlatform": {
+        "vmware_ubuntu": "linux",
+        "Demo-Ubuntu-22.04-1": "linux",
+        "mlmc-vip": "linux"
+    },
+    "explorer.confirmDelete": false,
+    "terminal.integrated.enableMultiLinePasteWarning": "never",
+    "git.ignoreLegacyWarning": true,
+    "workbench.editor.empty.hint": "hidden",
+    "files.associations": {
+        "docker-compose*.yml": "yaml",
+        "docker-compose*.yaml": "yaml",
+        // 添加这一行确保所有 yaml 文件都被正确识别
+        "*.yml": "yaml"
+    },
+    "[yaml]": {
+        "editor.defaultFormatter": "redhat.vscode-yaml",
+        "editor.formatOnSave": true,
+        // 添加以下设置
+        "editor.semanticHighlighting.enabled": true
+    },
+    "workbench.colorTheme": "Default Dark+",
+    "explorer.confirmPasteNative": false,
+    "extensions.autoUpdate": false,
+    "extensions.autoCheckUpdates": false,
+    "update.enableWindowsBackgroundUpdates": false,
+    "git.openRepositoryInParentFolders": "never",
+    "files.exclude": {
+        "**/__pycache__": true,
+        "**/.idea": true,
+        "**/.ipynb_checkpoints": true,
+        "**/.pytest_cache": true,
+        "**/.ruff_cache": true,
+        "**/.scrapy": true,
+        "**/.virtual_documents": true
+    },
+}

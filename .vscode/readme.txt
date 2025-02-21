@@ -10,6 +10,8 @@ Get-Content '.vscode/extensions.list' | Where-Object { $_ -match '\S' } | ForEac
     code --install-extension $_
 }
 
+# File->Preferences->Cursor Settings->VS Code Impport->Import
+
 # 复制 Cursor 的 用户settings.json 到 .vscode 目录
 Copy-Item "$env:APPDATA\Cursor\User\settings.json" -Destination ".\.vscode\settings.user.json"
 
@@ -40,9 +42,10 @@ uv pip freeze > requirements.txt
 mamba env create -f environment.yml
 
 # 激活环境
-mamba activate 环境名称
+conda activate myenv
 
 # 如果有 pip 包，再安装 pip 包
+python -m pip install uv
 uv pip install -r requirements.txt
 
 # 更新环境依赖

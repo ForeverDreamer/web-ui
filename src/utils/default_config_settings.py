@@ -30,7 +30,7 @@ def default_config():
         "save_recording_path": "./tmp/record_videos",
         "save_trace_path": "./tmp/traces",
         "save_agent_history_path": "./tmp/agent_history",
-        "task": "go to google.com and type 'OpenAI' click search and give me the first url",
+        "task": "访问x.com 网站，搜索'huawei'，统计搜索结果数量，提取前10条推文的所有数据字段",
     }
 
 

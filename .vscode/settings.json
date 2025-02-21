@@ -10,12 +10,12 @@
         "ByPass",
         "-NoExit",
         "-Command",
-        "& 'D:\\anaconda3\\shell\\condabin\\conda-hook.ps1' ; conda activate 'D:\\anaconda3' ; conda activate ai"
+        "& 'D:\\anaconda3\\shell\\condabin\\conda-hook.ps1' ; conda activate 'D:\\anaconda3'; conda activate webui"
       ]
     }
   },
   "python.terminal.activateEnvironment": true,
-  "python.defaultInterpreterPath": "D:\\anaconda3\\envs\\ai\\python.exe",
+  "python.defaultInterpreterPath": "D:\\anaconda3\\envs\\webui\\python.exe",
   // pylint - 保留用于深度代码分析
   "pylint.enabled": true,
   "pylint.args": ["--max-line-length=88", "--disable=C0111"],
